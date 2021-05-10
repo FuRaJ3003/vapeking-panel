@@ -38,7 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'vapeking.user',
+    'graphene_django',
 ]
+
+GRAPHENE = {
+    "SCHEMA": "vapeking.graphql.api.schema"
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

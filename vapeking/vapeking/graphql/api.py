@@ -1,9 +1,10 @@
 import graphene
 
-# from ? import Queries
+from .users.schema import UserQueries
 
-# class Query():
-#     pass
+class Query(UserQueries):
+    pass
 
-# schema = graphene.Schema(query=Query)
+schema = graphene.Schema(query=Query)
+
 

@@ -2,8 +2,18 @@ from django.db import models
 from django import forms
 
 class User(models.Model):
+
+    class Powers(models.IntegerChoices):
+        UNACTIVE = 0
+        EMPLOYEE = 1
+        MANAGER  = 2
+        ADMIN    = 3
+        # __empty__ = _('(Unknown)')
+
     u_name = models.CharField(max_length=30, null=False, blank=False)
     u_surename = models.CharField(max_length=30, null=False, blank=False)
     u_password = forms.CharField(widget=forms.PasswordInput)
-    u_power_flag = models.DecimalField(blank=False, decimal_places=1, max_digits=1)
+    u_power_flag = models.IntegerField(blank=False, choices=Powers.choices)
+
+
     # u_store = models.ForeignKey("app.Model", verbose_name=_(""), on_delete=models.CASCADE)

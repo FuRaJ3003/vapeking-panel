@@ -1,6 +1,6 @@
 import graphene
 
-from .users.schema import UserQueries
+from .user.schema import UserQueries
 
 class Query(UserQueries):
     pass

@@ -1,6 +1,6 @@
 import graphene
 
-from .types import UsersType
+from .types import UserType
 from vapeking.user.models import User
 
 class UserQueries(graphene.ObjectType):

@@ -40,7 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # own
+    'vapeking.order',
+    'vapeking.product',
+    'vapeking.storage',
+    'vapeking.store',
+    'vapeking.type',
     'vapeking.user',
+    
     # thid-party
     'graphene_django',
 ]

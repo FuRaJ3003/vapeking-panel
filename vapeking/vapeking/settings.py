@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     
     # thid-party
     'graphene_django',
+    'multiselectfield',
 ]
 
 GRAPHENE = {

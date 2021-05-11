@@ -1,3 +1,5 @@
 from django.db import models
 
-# Create your models here.
+class Type(models.Model):
+    t_name = models.TextField(max_length=30, blank=False, null=False)
+    

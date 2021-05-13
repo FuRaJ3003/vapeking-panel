@@ -1,5 +1,6 @@
 from django.db import models
 from django import forms
+from ..store.models import Store
 
 class User(models.Model):
 
@@ -14,9 +15,9 @@ class User(models.Model):
     u_surename = models.CharField(max_length=30, null=False, blank=False)
     u_password = models.CharField(max_length=100, null=False, blank=False)
     u_power_flag = models.IntegerField(blank=False, choices=Powers.choices)
-    # TODO: u_store = models.ForeignKey("app.Model", verbose_name=_(""), on_delete=models.CASCADE)
+    u_store = models.OneToOneField(Store, on_delete=models.CASCADE, default=0)
 
     def __str__(self):
-        return self.name
+        return self.u_name
 
     

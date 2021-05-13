@@ -68,12 +68,12 @@ class User(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
+    password = models.CharField(max_length=100, null=False, blank=False)
 
     name     = models.CharField(max_length=30, blank=True)
     surename = models.CharField(max_length=30, blank=True)
-    store    = models.OneToOneField(Store, on_delete=models.CASCADE, blank=True, default=1)
-    password = models.CharField(max_length=100, null=False, blank=False)
     
+    store    = models.ForeignKey(Store, on_delete=models.CASCADE, blank=True, default=1)
     isactive  = models.BooleanField(default=True)
     isstaff   = models.BooleanField(default=False)
     ismanager = models.BooleanField(default=False)

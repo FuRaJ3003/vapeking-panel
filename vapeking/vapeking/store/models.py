@@ -12,7 +12,7 @@ class Store(models.Model):
         WROCLAW = "Wrocław"
 
     store_name          = models.CharField(max_length=30, null=False, blank=False)
-    store_products      = MultiSelectField(blank=False, choices=ProductChoice.choices)
+    store_products      = MultiSelectField(blank=True, choices=ProductChoice.choices)
     store_city          = models.CharField(blank=False, choices=CitiesChoice.choices, max_length=40)
     # store_storage_id    = models.ForeignKey()
 

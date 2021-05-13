@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'multiselectfield',
 ]
 
+AUTH_USER_MODEL = 'user.User' # changes the build-in user model to ours
+
 GRAPHENE = {
     "SCHEMA": "vapeking.graphql.api.schema"
 }
@@ -100,6 +102,8 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

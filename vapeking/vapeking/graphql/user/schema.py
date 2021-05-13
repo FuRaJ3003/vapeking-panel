@@ -9,6 +9,8 @@ class UserQueries(graphene.ObjectType):
     )
 
     def resolve_user(self, _info, id):
-        user = User.objects.filter(pk=id).first()
-        return user
+        return User.objects.filter(id=id).first()
+
+    def resolve_users(self, _info):
+        return User.objects.all()
 

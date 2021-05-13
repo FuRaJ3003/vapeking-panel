@@ -12,7 +12,11 @@ class User(models.Model):
 
     u_name = models.CharField(max_length=30, null=False, blank=False)
     u_surename = models.CharField(max_length=30, null=False, blank=False)
-    u_password = models.CharField(max_length=50, null=False, blank=False)
+    u_password = models.CharField(max_length=100, null=False, blank=False)
     u_power_flag = models.IntegerField(blank=False, choices=Powers.choices)
-
     # TODO: u_store = models.ForeignKey("app.Model", verbose_name=_(""), on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+    

@@ -55,7 +55,6 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'user.User' # changes the build-in user model to ours
-X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 GRAPHENE = {
     "SCHEMA": "vapeking.graphql.api.schema"
@@ -88,6 +87,13 @@ TEMPLATES = [
         },
     },
 ]
+
+#Template conf
+
+
+JET_CHANGE_FORM_SIBLING_LINKS = True
+JET_INDEX_DASHBOARD = 'vapeking.dashboard.CustomIndexDashboard'
+JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE = os.environ["SECRET_PATH"]
 
 WSGI_APPLICATION = 'vapeking.wsgi.application'
 

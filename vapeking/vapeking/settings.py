@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jet.dashboard',
+    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,7 +48,6 @@ INSTALLED_APPS = [
     'vapeking.store',
     'vapeking.type',
     'vapeking.user',
-    'vapeking.snippets',
     
     # thid-party
     'graphene_django',
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'user.User' # changes the build-in user model to ours
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 GRAPHENE = {
     "SCHEMA": "vapeking.graphql.api.schema"

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'vapeking.store',
     'vapeking.type',
     'vapeking.user',
+    'vapeking.snippets',
     
     # thid-party
     'graphene_django',

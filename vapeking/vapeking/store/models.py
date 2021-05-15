@@ -16,3 +16,5 @@ class Store(models.Model):
     store_city          = models.CharField(blank=False, choices=CitiesChoice.choices, max_length=40)
     # store_storage_id    = models.ForeignKey()
 
+    def __str__(self):
+        return f'Store: {self.store_name}'

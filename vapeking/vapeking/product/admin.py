@@ -15,7 +15,7 @@ class ProductAdmin(admin.ModelAdmin):
         return obj.p_type
 
     def get_price(self, obj):
-        return obj.p_price
+        return f"{obj.p_price} PLN"
     
     get_name.admin_order_field = 'p_name'
     get_name.short_description = "Nazwa"

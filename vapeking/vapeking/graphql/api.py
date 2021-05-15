@@ -2,8 +2,9 @@ import graphene
 
 from .user.schema import UserQueries
 from .store.schema import StoreQueries
+from .product.schema import ProductQueries
 
-class Query(UserQueries, StoreQueries):
+class Query(UserQueries, StoreQueries, ProductQueries):
     pass
 
 schema = graphene.Schema(query=Query)

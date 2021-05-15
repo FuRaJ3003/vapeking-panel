@@ -46,6 +46,20 @@ class CustomIndexDashboard(Dashboard):
             order=0
         ))
 
+        self.available_children.append(modules.LinkList)
+        self.children.append(modules.LinkList(
+            _('Akcje'),
+            children=[
+                {
+                    'title': _('Wyloguj się'),
+                    'url': 'http://127.0.0.1:8000/admin/logout/',
+                    'external': True,
+                }
+            ],
+            column=0,
+            order=0
+        ))
+
         self.available_children.append(google_analytics.GoogleAnalyticsVisitorsTotals)
         self.available_children.append(google_analytics.GoogleAnalyticsVisitorsChart)
         self.available_children.append(google_analytics.GoogleAnalyticsPeriodVisitors)

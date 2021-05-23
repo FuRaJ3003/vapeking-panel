@@ -8,6 +8,9 @@ class CustomIndexDashboard(Dashboard):
     columns = 3
 
     def init_with_context(self, context):
+        
+
+    
         self.available_children.append(modules.LinkList)
         self.children.append(modules.LinkList(
             _('Linki VapeKing'),
@@ -31,6 +34,7 @@ class CustomIndexDashboard(Dashboard):
             column=0,
             order=0
         ))
+
 
         self.children.append(modules.AppList(
             _('Aplikacje'),

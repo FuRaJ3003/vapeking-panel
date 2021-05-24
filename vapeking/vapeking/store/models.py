@@ -4,15 +4,16 @@ from ..product.models import Product
 
 class Store(models.Model):
 
-
     class CitiesChoice(models.TextChoices):
         SWIDNICA = "Świdnica"
         WROCLAW = "Wrocław"
 
-    store_name          = models.CharField(max_length=30, null=False, blank=False)
-    store_products      = models.ForeignKey(Product, blank=True, null=True, on_delete=models.CASCADE)
-    store_city          = models.CharField(blank=False, choices=CitiesChoice.choices, max_length=40)
-    # store_storage_id    = models.ForeignKey()
-
+    name          = models.CharField(max_length=30, blank=False, null=False)
+    products      = models.ForeignKey(Product, related_name='products', on_delete=models.CASCADE, blank=True, null=True,)
+    city          = models.CharField(max_length=40, choices=CitiesChoice.choices, blank=False, null=False)
+    
     def __str__(self):
         return f'Store: {self.store_name}'
+
+
+# store_storage_id    = 

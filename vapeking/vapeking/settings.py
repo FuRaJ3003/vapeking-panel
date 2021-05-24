@@ -97,6 +97,10 @@ JET_INDEX_DASHBOARD = 'vapeking.dashboard.CustomIndexDashboard'
 
 WSGI_APPLICATION = 'vapeking.wsgi.application'
 
+# Origin settings
+X_FRAME_OPTIONS = 'ALLOWALL'
+XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

@@ -9,11 +9,11 @@ class Store(models.Model):
         WROCLAW = "Wrocław"
 
     name          = models.CharField(max_length=30, blank=False, null=False)
-    products      = models.ForeignKey(Product, related_name='products', on_delete=models.CASCADE, blank=True, null=True,)
+    products      = models.ForeignKey(Product, related_name='products', on_delete=models.CASCADE, blank=True, null=True)
     city          = models.CharField(max_length=40, choices=CitiesChoice.choices, blank=False, null=False)
     
     def __str__(self):
-        return f'Store: {self.store_name}'
+        return f'Store: {self.name}'
 
 
 # store_storage_id    = 

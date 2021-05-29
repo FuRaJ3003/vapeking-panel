@@ -9,7 +9,7 @@ class Store(models.Model):
         WROCLAW = "Wrocław"
 
     name          = models.CharField(max_length=30, blank=False, null=False)
-    products      = models.ForeignKey(Product, related_name='products', on_delete=models.CASCADE, blank=True, null=True)
+    products      = models.ManyToManyField(Product, related_name='products', blank=True)
     city          = models.CharField(max_length=40, choices=CitiesChoice.choices, blank=False, null=False)
     
     def __str__(self):

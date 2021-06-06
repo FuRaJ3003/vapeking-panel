@@ -65,7 +65,15 @@ class StorageStockCreate(graphene.Mutation):
             try:
                 stock = storage.stocks.get(product_id=product_id)
             
-            except CheckoutLine.DoesNotExist:
+            except StorageStock.DoesNotExist:
+                storage_stock = StorageStock.objects.create(**cleaned_input)
+
+            else:
+                stock.quantity += quantity
+                stock.save(updated_fields=['quantity'])
+                return
+            
+        storage_stock = StorageStock.objects.create(**cleaned_input)
 
     
 

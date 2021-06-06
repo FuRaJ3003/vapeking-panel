@@ -14,58 +14,58 @@ class StorageCreateInput(graphene.InputObjectType):
     stocks = graphene.List(StorageStockCreateInput, required=True)
 
 
-# class StorageCreate(graphene.Mutation):
-#     storage = graphene.Field(CheckoutType)
+class StorageCreate(graphene.Mutation):
+    storage = graphene.Field(CheckoutType)
 
-#     class Arguments:
-#         input = StorageCreateInput(required=True)
+    class Arguments:
+        input = StorageCreateInput(required=True)
 
-#     @classmethod
-#     def clean_input(cls, input):
-#         # TODO : Validation
-#         return input
+    @classmethod
+    def clean_input(cls, input):
+        # TODO : Validation
+        return input
 
-#     @classmethod
-#     def mutate(cls, root, info, input):
-#         cleaned_input = cls.clean_input(input)
+    @classmethod
+    def mutate(cls, root, info, input):
+        cleaned_input = cls.clean_input(input)
 
-#         stocks = cleaned_input.pop('stocks')
-#         storage = Storage.objects.create(**cleaned_input)
-#         storage_stocks = []
+        stocks = cleaned_input.pop('stocks')
+        storage = Storage.objects.create(**cleaned_input)
+        storage_stocks = []
 
-#         for stock in stocks:
-#             storage_stocks.append(StorageStock(storage_id=storage.id, **stock))
+        for stock in stocks:
+            storage_stocks.append(StorageStock(storage_id=storage.id, **stock))
 
-#         storage.stocks.bulk_create(storage_stocks)
-#         return StorageCreate(storage=storage)       
+        storage.stocks.bulk_create(storage_stocks)
+        return StorageCreate(storage=storage)       
 
 
-# class StorageStockCreate(graphene.Mutation):
-#     storage_stock = graphene.Field(StorageStockType)
+class StorageStockCreate(graphene.Mutation):
+    storage_stock = graphene.Field(StorageStockType)
 
-#     class Arguments:
-#         input = StorageStockCreateInput(required=True)
+    class Arguments:
+        input = StorageStockCreateInput(required=True)
 
-#     @classmethod
-#     def clean_input(cls, input):
-#         # TODO : Validation
-#         return input
+    @classmethod
+    def clean_input(cls, input):
+        # TODO : Validation
+        return input
 
-#     @classmethod
-#     def mutate(cls, root, info, input)
-#         cleaned_input = cls.clean_input(input)
+    @classmethod
+    def mutate(cls, root, info, input)
+        cleaned_input = cls.clean_input(input)
 
-#         storage_id = input.get('storage_id')
+        storage_id = input.get('storage_id')
 
-#         if storage_id:
-#             product_id = input.get('product_id')
-#             quantity = input.get('quantity')
-#             storage = Storage.objects.get(id=storage_id)
+        if storage_id:
+            product_id = input.get('product_id')
+            quantity = input.get('quantity')
+            storage = Storage.objects.get(id=storage_id)
 
-#             try:
-#                 stock = storage.stocks.get(product_id=product_id)
+            try:
+                stock = storage.stocks.get(product_id=product_id)
             
-#             except CheckoutLine.DoesNotExist:
+            except CheckoutLine.DoesNotExist:
 
     
 

@@ -25,10 +25,10 @@ class StorageQueries(graphene.ObjectType):
     # def resolve_storage_by_shop(self, info, shop) TODO
 
     def resolve_storage_stock(self, _info, id):
-        return StorageStocks.objects.filter(id=id).first()
+        return StorageStock.objects.filter(id=id).first()
 
     def resolve_storage_stocks(self, _info):
-        return StorageStocks.objects.all()
+        return StorageStock.objects.all()
 
 class StorageMutations(graphene.ObjectType):
     storage_create = StorageCreate.Field()

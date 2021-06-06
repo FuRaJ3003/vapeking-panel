@@ -11,6 +11,6 @@ class Query(UserQueries, StoreQueries, StorageQueries):
 class Mutations(StorageMutations):
     pass
 
-schema = graphene.Schema(query=Query)
+schema = graphene.Schema(query=Query, mutation=Mutations)
 
 

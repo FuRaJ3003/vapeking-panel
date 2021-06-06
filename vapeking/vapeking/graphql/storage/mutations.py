@@ -31,12 +31,15 @@ class StorageCreate(graphene.Mutation):
 
         stocks = cleaned_input.pop('stocks')
         storage = Storage.objects.create(**cleaned_input)
-        storage_stocks = []
 
-        for stock in stocks:
-            storage_stocks.append(StorageStock(storage_id=storage.id, **stock))
+        if stocks: 
+            storage_stocks = []
 
-        storage.stocks.bulk_create(storage_stocks)
+            for stock in stocks:
+                storage_stocks.append(StorageStock(storage_id=storage.id, **stock))
+
+            storage.stocks.bulk_create(storage_stocks)
+        
         return StorageCreate(storage=storage)       
 
 
@@ -56,25 +59,25 @@ class StorageStockCreate(graphene.Mutation):
         cleaned_input = cls.clean_input(input)
 
         storage_id = input.get('storage_id')
-
         if storage_id:
             product_id = input.get('product_id')
             quantity = input.get('quantity')
             storage = Storage.objects.get(id=storage_id)
 
             try:
-                stock = storage.stocks.get(product_id=product_id)
+                stock = storage.storagestock_set.get(product_id=product_id)
             
             except StorageStock.DoesNotExist:
                 storage_stock = StorageStock.objects.create(**cleaned_input)
 
+            except StorageStock.MultipleObjectsReturned:
+                storage.storagestock_set.filter(product_id=product_id).delete()
+                storage_stock = StorageStock.objects.create(**cleaned_input)
+
             else:
                 stock.quantity += quantity
-                stock.save(updated_fields=['quantity'])
+                stock.save(update_fields=['quantity'])
                 return
-            
-        storage_stock = StorageStock.objects.create(**cleaned_input)
-
     
 
 

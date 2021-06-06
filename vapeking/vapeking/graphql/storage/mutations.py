@@ -52,7 +52,7 @@ class StorageStockCreate(graphene.Mutation):
         return input
 
     @classmethod
-    def mutate(cls, root, info, input)
+    def mutate(cls, root, info, input):
         cleaned_input = cls.clean_input(input)
 
         storage_id = input.get('storage_id')

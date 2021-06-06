@@ -14,3 +14,6 @@ class StorageQueries(graphene.ObjectType):
         StorageStockType,
         id=graphene.Argument(graphene.ID, description="ID of storage stock."),
     )
+    storage_stocks = graphene.List(StorageStockType)
+
+    

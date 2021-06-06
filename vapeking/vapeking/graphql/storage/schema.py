@@ -29,3 +29,8 @@ class StorageQueries(graphene.ObjectType):
 
     def resolve_storage_stocks(self, _info):
         return StorageStocks.objects.all()
+
+class StorageMutations(graphene.ObjectType):
+    storage_create = StorageCreate.Field()
+    storage_stock_create = StorageStockCreate.Field()
+    

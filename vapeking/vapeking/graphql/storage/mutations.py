@@ -15,7 +15,7 @@ class StorageCreateInput(graphene.InputObjectType):
 
 
 class StorageCreate(graphene.Mutation):
-    storage = graphene.Field(CheckoutType)
+    storage = graphene.Field(StorageType)
 
     class Arguments:
         input = StorageCreateInput(required=True)

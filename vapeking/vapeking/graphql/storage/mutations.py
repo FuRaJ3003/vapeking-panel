@@ -11,7 +11,7 @@ class StorageStockCreateInput(graphene.InputObjectType):
 class StorageCreateInput(graphene.InputObjectType):
     name = graphene.String(required=True)
     store_id = graphene.ID(required=True)
-    stocks = graphene.List(StorageStockCreateInput, required=True)
+    stocks = graphene.List(StorageStockCreateInput, required=False)
 
 
 class StorageCreate(graphene.Mutation):

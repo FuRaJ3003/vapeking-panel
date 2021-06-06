@@ -20,6 +20,12 @@ class StorageQueries(graphene.ObjectType):
         return Storage.objects.filter(id=id).first()
 
     def resolve_storages(self, _info):
-        return Checkout.objects.all()
+        return Storage.objects.all()
 
-    def resolve_storage_by_shop(self, info, shop)
+    # def resolve_storage_by_shop(self, info, shop) TODO
+
+    def resolve_storage_stock(self, _info, id):
+        return StorageStocks.objects.filter(id=id).first()
+
+    def resolve_storage_stocks(self, _info):
+        return StorageStocks.objects.all()

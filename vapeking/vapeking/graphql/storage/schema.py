@@ -10,3 +10,7 @@ class StorageQueries(graphene.ObjectType):
         id=graphene.Argument(graphene.ID, description="ID of storage.")
     )
     storages = graphene.List(StorageType)
+    storage_stock = graphene.Field(
+        StorageStockType,
+        id=graphene.Argument(graphene.ID, description="ID of storage stock."),
+    )

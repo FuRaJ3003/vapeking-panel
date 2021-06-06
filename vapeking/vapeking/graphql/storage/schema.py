@@ -33,4 +33,4 @@ class StorageQueries(graphene.ObjectType):
 class StorageMutations(graphene.ObjectType):
     storage_create = StorageCreate.Field()
     storage_stock_create = StorageStockCreate.Field()
-    
+

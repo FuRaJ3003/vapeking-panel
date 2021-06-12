@@ -1,7 +1,7 @@
 import graphene
 from .types import UserType
 from vapeking.user.models import User
-from ..core.utils import staff_member_required
+from ..core.utils import staff_member_required, active_member_required
 
 
 class UserQueries(graphene.ObjectType):
@@ -9,6 +9,7 @@ class UserQueries(graphene.ObjectType):
         UserType, id=graphene.Argument(graphene.ID, description="ID of User.")
     )
 
+    @active_member_required
     def resolve_user(self, _info, id):
         return User.objects.filter(id=id).first()
 

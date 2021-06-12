@@ -3,7 +3,9 @@ from django import forms
 from ..store.models import Store
 
 from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser
+    BaseUserManager,
+    AbstractBaseUser,
+    PermissionsMixin
 )
 
 
@@ -60,7 +62,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser):
+class User(PermissionsMixin, AbstractBaseUser):
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,

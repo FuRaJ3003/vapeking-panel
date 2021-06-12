@@ -9,5 +9,5 @@ class UserType(DjangoObjectType):
         fields = "__all__"
 
         widgets = {
-            'u_password': forms.PasswordInput()
+            'password': forms.PasswordInput()
         }

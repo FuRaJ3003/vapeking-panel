@@ -60,8 +60,6 @@ class UserManager(BaseUserManager):
         return user
 
 
-
-
 class User(AbstractBaseUser):
     email = models.EmailField(
         verbose_name='email address',
@@ -80,7 +78,7 @@ class User(AbstractBaseUser):
     isadmin   = models.BooleanField(default=False)
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [] # Email & Password required by default
+    REQUIRED_FIELDS = [] 
 
     def get_full_name(self):
         return self.email
@@ -110,29 +108,5 @@ class User(AbstractBaseUser):
         return self.isadmin
 
     objects = UserManager()
-
-
-
-# OLD USER MODEL
-# class User(models.Model):
-
-#     class Powers(models.IntegerChoices):
-#         UNACTIVE = 0
-#         EMPLOYEE = 1
-#         MANAGER  = 2
-#         ADMIN    = 3
-#         # __empty__ = _('(Unknown)')
-
-#     u_name = models.CharField(max_length=30, null=False, blank=False)
-#     u_surename = models.CharField(max_length=30, null=False, blank=False)
-#     u_password = models.CharField(max_length=100, null=False, blank=False)
-#     u_power_flag = models.IntegerField(blank=False, choices=Powers.choices)
-#     u_store = models.OneToOneField(Store, on_delete=models.CASCADE, default=0)
-
-
-#     def __str__(self):
-#         return self.u_name
-
-
 
     

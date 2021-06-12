@@ -97,22 +97,3 @@ class UserAdminChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
-# class UserForm(forms.ModelForm):
-
-#     u_password = forms.CharField(widget=forms.PasswordInput)
-
-#     class Meta:
-#         model = User
-#         fields = (
-#             "email",
-#             "password",
-
-#             "name",
-#             "surename",
-#             "store",
-
-#             "isactive",
-#             "isstaff",
-#             "ismanager",
-#             "isadmin",
-#             )

@@ -8,7 +8,6 @@ from ..graphql.user.forms import UserAdminCreationForm, UserAdminChangeForm
 
 User = get_user_model()
 
-# Remove group model from admin
 admin.site.unregister(Group)
 
 admin.site.site_header = "VapeKing ADMIN"
@@ -31,7 +30,6 @@ class UserAdmin(BaseUserAdmin):
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('name', 'surename', 'store')}),
         ('Permissions', {'fields': ('isactive', 'isstaff', 'ismanager', 'isadmin',)}),
-        # ('Permissions', {'fields': ('admin',)}),
     )
     
     add_fieldsets = (

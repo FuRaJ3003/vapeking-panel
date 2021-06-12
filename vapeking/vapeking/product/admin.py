@@ -3,7 +3,6 @@ from .models import Product
 from vapeking.type.models import Type
 
 
-
 class ProductAdmin(admin.ModelAdmin):
     model = Product
     list_display = ('get_name', 'get_price', 'get_type')
@@ -25,11 +24,5 @@ class ProductAdmin(admin.ModelAdmin):
 
     get_price.admin_order_field = 'price'
     get_price.short_description = "Cena"
-
-    # def get_price(self, obj):
-    # #     return obj.Product.p_price
-
-    # get_type.short_description = 'Typ'
-    # get_price.short_description = 'Cena'
 
 admin.site.register(Product, ProductAdmin)

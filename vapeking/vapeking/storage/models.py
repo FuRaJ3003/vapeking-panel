@@ -9,6 +9,7 @@ class Storage(models.Model):
     def __str__(self):
         return f"{self.name} ({self.store})"
 
+
 class StorageStock(models.Model):
     storage = models.ForeignKey(Storage, on_delete=models.CASCADE, blank=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=False)

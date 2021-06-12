@@ -16,4 +16,3 @@ class Store(models.Model):
         return f'Store: {self.name}'
 
 
-# store_storage_id    = 

@@ -2,6 +2,7 @@ import graphene
 from .types import StoreType
 from vapeking.store.models import Store
 
+
 class StoreQueries(graphene.ObjectType):
     store = graphene.Field(
         StoreType, id=graphene.Argument(graphene.ID, description="ID of Store.")

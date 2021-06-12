@@ -18,6 +18,15 @@ def check_permission(name, *args):
             if not getattr(arg.context.user, name):
                 raise UserPermissionError
 
+def superuser_required(func):
+    def check_su(*args, **kwargs):
+        check_permission('is_superuser', *args)
+        return func(*args, **kwargs)
+    return check_su
 
 
-
+def staff_member_required(func):
+    def check_staff(*args, **kwargs):
+        check_permission('is_staff', *args)
+        return func(*args, **kwargs)
+    return check_staff 

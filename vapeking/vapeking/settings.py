@@ -57,7 +57,10 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'user.User' # changes the build-in user model to ours
 
 GRAPHENE = {
-    "SCHEMA": "vapeking.graphql.api.schema"
+    "SCHEMA": "vapeking.graphql.api.schema",
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
 }
 
 MIDDLEWARE = [

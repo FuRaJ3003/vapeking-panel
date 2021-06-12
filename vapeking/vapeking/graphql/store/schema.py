@@ -1,7 +1,7 @@
 import graphene
 from .types import StoreType
 from vapeking.store.models import Store
-from .core.utils import staff_member_required, manager_member_required
+from .core.utils import staff_member_required, admin_member_required
 
 class StoreQueries(graphene.ObjectType):
     store = graphene.Field(
@@ -12,6 +12,6 @@ class StoreQueries(graphene.ObjectType):
     def resolve_store(self, _info, id):
         return Store.objects.filter(id=id).first()
 
-    @manager_member_required
+    @admin_member_required
     def resolve_stores(self, _info):
         return Store.objects.all()

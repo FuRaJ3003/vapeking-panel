@@ -1,6 +1,7 @@
 import graphene
 from .types import StorageType, StorageStockType
 from ...storage.models import Storage, StorageStock
+from .core.utils import manager_member_required, admin_member_required
 
 class StorageStockCreateInput(graphene.InputObjectType):
     quantity = graphene.Int(required=True)
@@ -26,6 +27,7 @@ class StorageCreate(graphene.Mutation):
         return input
 
     @classmethod
+    @admin_member_required
     def mutate(cls, root, info, input):
         cleaned_input = cls.clean_input(input)
 
@@ -55,6 +57,7 @@ class StorageStockCreate(graphene.Mutation):
         return input
 
     @classmethod
+    @manager_member_required
     def mutate(cls, root, info, input):
         cleaned_input = cls.clean_input(input)
 

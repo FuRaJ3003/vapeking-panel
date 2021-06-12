@@ -1,7 +1,7 @@
 import graphene
 from .types import StoreType
 from vapeking.store.models import Store
-from .core.utils import staff_member_required, admin_member_required
+from ..core.utils import staff_member_required, admin_member_required
 
 class StoreQueries(graphene.ObjectType):
     store = graphene.Field(

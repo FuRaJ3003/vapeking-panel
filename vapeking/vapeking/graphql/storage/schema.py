@@ -3,7 +3,7 @@ import graphene
 from .types import StorageType, StorageStockType
 from ...storage.models import Storage, StorageStock
 from  .mutations import StorageCreate, StorageStockCreate
-from .core.utils import staff_member_required
+from ..core.utils import staff_member_required
 
 class StorageQueries(graphene.ObjectType):
     storage = graphene.Field(
@@ -16,7 +16,7 @@ class StorageQueries(graphene.ObjectType):
         id=graphene.Argument(graphene.ID, description="ID of storage stock."),
     )
     storage_stocks = graphene.List(StorageStockType)
-    
+
     @staff_member_required
     def resolve_storage(self, _info, id):
         return Storage.objects.filter(id=id).first()

@@ -1,7 +1,7 @@
 import graphene
 from .types import StorageType, StorageStockType
 from ...storage.models import Storage, StorageStock
-from .core.utils import manager_member_required, admin_member_required
+from ..core.utils import manager_member_required, admin_member_required
 
 class StorageStockCreateInput(graphene.InputObjectType):
     quantity = graphene.Int(required=True)

@@ -1,7 +1,7 @@
 import graphene
 from .types import ProductType
 from vapeking.product.models import Product
-from .core.utils import manager_member_required
+from ..core.utils import manager_member_required
 
 class ProductQueries(graphene.ObjectType):
     product = graphene.Field(

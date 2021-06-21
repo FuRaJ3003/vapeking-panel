@@ -11,7 +11,7 @@ from django.contrib.auth.models import (
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, email, password=None, is_active=True, is_staff=False, is_manager=False, is_admin=False):
+    def create_user(self, email, name, surename, password=None, is_active=True, is_staff=False, is_manager=False, is_admin=False):
         if not email:
             raise ValueError('Użytkownik musi posiadać adres e-mail.')
         if not password:
@@ -30,18 +30,22 @@ class UserManager(BaseUserManager):
         return user
     
 
-    def create_staffuser(self, email, password=None):
+    def create_staffuser(self, email, name, surename, password, is_active=True, is_staff=True, is_manager=False, is_admin=False):
         user = self.create_user(
-            email,
+            email=email,
+            name=name,
+            surename=surename,
             password=password,
             is_staff=True,
         )
         user.save(using=self._db)
         return user
 
-    def create_manageruser(self, email, password):
+    def create_manageruser(self, email, name, surename, password, is_active=True, is_staff=True, is_manager=True, is_admin=False):
         user = self.create_user(
-            email,
+            email=email,
+            name=name,
+            surename=surename,
             password=password,
             is_staff=True,
             is_manager=True,
@@ -50,9 +54,11 @@ class UserManager(BaseUserManager):
         return user
 
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, email, name, surename, password, is_active=True, is_staff=True, is_manager=True, is_admin=True):
         user = self.create_user(
-            email,
+            email=email,
+            name=name,
+            surename=surename,
             password=password,
             is_staff=True,
             is_manager=True,

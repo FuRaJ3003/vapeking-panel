@@ -7,6 +7,7 @@ class StoreQueries(graphene.ObjectType):
     store = graphene.Field(
         StoreType, id=graphene.Argument(graphene.ID, description="ID of Store.")
     )
+    stores = graphene.List(StoreType)
     
     @staff_member_required
     def resolve_store(self, _info, id):

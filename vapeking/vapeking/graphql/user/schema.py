@@ -1,5 +1,7 @@
 import graphene
+
 from .types import UserType
+from .mutations import UserCreate, StaffCreate
 from vapeking.user.models import User
 from ..core.utils import staff_member_required, active_member_required
 
@@ -18,3 +20,6 @@ class UserQueries(graphene.ObjectType):
     def resolve_users(self, _info):
         return User.objects.all()
 
+class UserMutations(graphene.ObjectType):
+    user_create = UserCreate.Field()
+    staff_create = StaffCreate.Field()

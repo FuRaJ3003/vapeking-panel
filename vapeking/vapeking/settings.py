@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # thid-party
     'graphene_django',
     'multiselectfield',
+    'corsheaders',
 ]
 
 AUTH_USER_MODEL = 'user.User' # changes the build-in user model to ours
@@ -72,6 +73,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+]
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+    # frontend React App
 ]
 
 AUTHENTICATION_BACKENDS = [

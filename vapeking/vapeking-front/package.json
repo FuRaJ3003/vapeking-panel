@@ -10,11 +10,13 @@
     "@types/node": "^12.20.15",
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",
+    "apollo": "^2.33.4",
     "apollo-boost": "^0.4.9",
     "graphql": "^15.5.0",
     "react": "^17.0.2",
     "react-apollo": "^3.1.5",
     "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "typescript": "^4.3.4",
     "web-vitals": "^1.1.2"
@@ -23,7 +25,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "schema:download": "apollo schema:download --endpoint=http://127.0.0.1:8000/graphql/",
+    "codegen:generate": "apollo codegen:generate --queries=./src/**/*.tsx --schema=./schema.json --outputFlat --target=typescript ./src/schemaTypes.ts",
+    "gen:types": "npm run schema:download && npm run codegen:generate",
+    "refresh:types": "npm run gen:types && npm run build"
   },
   "eslintConfig": {
     "extends": [
@@ -42,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.1.7"
   }
 }

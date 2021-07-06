@@ -7,7 +7,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { Routes } from "./Routes";
 
 const client = new ApolloClient({
-  uri: "http://localhost:8000/graphql",
+  uri: "http://localhost:8000/graphql/",
   credentials: "include"
 });
 

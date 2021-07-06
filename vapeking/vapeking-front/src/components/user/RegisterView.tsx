@@ -28,6 +28,7 @@ const registerMutation = gql`
     }
 `
 
+
 export class RegisterView extends React.PureComponent<RouteComponentProps<{}>> {
 
     state = {

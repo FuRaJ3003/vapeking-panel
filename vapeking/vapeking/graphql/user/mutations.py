@@ -12,8 +12,8 @@ from django.core.exceptions import ValidationError
 class UserCreateInput(graphene.InputObjectType):
     email = graphene.String(required=True)
     password = graphene.String(required=True)
-    name = graphene.String(required=False)
-    surename = graphene.String(required=False)
+    name = graphene.String(required=True)
+    surename = graphene.String(required=True)
 
     @staticmethod
     def validate_email(email):
@@ -33,6 +33,20 @@ class UserCreateInput(graphene.InputObjectType):
             raise ValidationError("Hasło musi zawierać co najmniej 8 znaków.")
         return password
 
+    @staticmethod
+    def validate_name(name):
+        if len(name) > 35:
+            raise ValidationError("Twoje imię / nazwisko jest zbyt długie.")
+        elif len(name) < 1:
+            raise ValidationError("Twoje imię / nazwisko jest zbyt krótkie.")
+        elif not str(name.isalpha()):
+            raise ValidationError("Twoje imię / nazwisko powinno zawierać tylko znaki alfabetu")
+        
+        name = name.lower()
+        name = name.capitalize()
+        return name
+        
+
 
 
 class UserCreate(graphene.Mutation):
@@ -47,6 +61,8 @@ class UserCreate(graphene.Mutation):
         cleaned_input = input
         cleaned_input['email'] = UserCreateInput.validate_email(cleaned_input['email'])
         cleaned_input['password'] = UserCreateInput.validate_password(cleaned_input['password'])
+        cleaned_input['name'] = UserCreateInput.validate_name(cleaned_input['name'])
+        cleaned_input['surename'] = UserCreateInput.validate_name(cleaned_input['surename'])
         user = User.objects.create_user(**cleaned_input)
         return UserCreate(user=user)
 
@@ -63,6 +79,8 @@ class StaffCreate(graphene.Mutation):
         cleaned_input = input
         cleaned_input['email'] = UserCreateInput.validate_email(cleaned_input['email'])
         cleaned_input['password'] = UserCreateInput.validate_password(cleaned_input['password'])
+        cleaned_input['name'] = UserCreateInput.validate_name(cleaned_input['name'])
+        cleaned_input['surename'] = UserCreateInput.validate_name(cleaned_input['surename']) 
 
         staff = User.objects.create_staffuser(**cleaned_input, is_staff=True)
         return StaffCreate(user=staff)

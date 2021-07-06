@@ -19,7 +19,9 @@ class UserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
         )
-
+        
+        user.name      = name
+        user.surename  = surename
         user.set_password(password)
         user.isactive  = is_active
         user.isstaff   = is_staff
@@ -76,10 +78,10 @@ class User(PermissionsMixin, AbstractBaseUser):
     )
     password = models.CharField(max_length=100, null=False, blank=False)
 
-    name     = models.CharField(max_length=30, blank=True)
-    surename = models.CharField(max_length=30, blank=True)
+    name     = models.CharField(max_length=30, blank=False)
+    surename = models.CharField(max_length=30, blank=False)
     
-    store    = models.ForeignKey(Store, on_delete=models.CASCADE, blank=True, default=1)
+    store    = models.ForeignKey(Store, on_delete=models.CASCADE, default=1)
     isactive  = models.BooleanField(default=True)
     isstaff   = models.BooleanField(default=False)
     ismanager = models.BooleanField(default=False)

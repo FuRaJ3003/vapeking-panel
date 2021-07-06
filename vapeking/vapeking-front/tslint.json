@@ -2,7 +2,7 @@
     "extends" : ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
     "rules": {
         "member-access": false,
-        "ordered-imports": false,
+        "ordered-imports": false
     },
     "linterOptions": {
         "exclude": [

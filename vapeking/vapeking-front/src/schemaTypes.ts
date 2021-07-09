@@ -1,3 +1,5 @@
+// register
+
 export interface RegisterMutation {
     register: boolean;
 }
@@ -7,4 +9,15 @@ export interface RegisterMutationVariables {
     password: string;
     name: string;
     surename: string;
+}
+
+// login
+
+export interface LoginMutation {
+    login: boolean;
+}
+
+export interface LoginMutationVariables {
+    email: string;
+    password: string;
 }

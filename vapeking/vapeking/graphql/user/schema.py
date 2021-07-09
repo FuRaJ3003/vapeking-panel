@@ -12,13 +12,23 @@ class UserQueries(graphene.ObjectType):
     )
     users = graphene.List(UserType)
 
+    user_email = graphene.Field(
+        UserType, email=graphene.Argument(graphene.String, description="Email of User.")
+    )
+
     @active_member_required
     def resolve_user(self, _info, id):
         return User.objects.filter(id=id).first()
 
+    @active_member_required
+    def resolve_user_email(self, _info, email):
+        return User.objects.filter(email=email).first()
+
     # @active_member_required
     def resolve_users(self, _info):
         return User.objects.all()
+
+
 
 class UserMutations(graphene.ObjectType):
     user_create = UserCreate.Field()

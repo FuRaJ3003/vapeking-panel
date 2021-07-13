@@ -5,6 +5,7 @@ import { RouteComponentProps } from 'react-router-dom';
 
 import { LoginMutationVariables, LoginMutation } from '../../schemaTypes';
 
+import '../styles/style.css';
 
 const loginMutation = gql`
     mutation LoginMutation($email: String!, $password: String!) {
@@ -35,38 +36,51 @@ export class LoginView extends React.PureComponent<RouteComponentProps<{}>> {
         return (
         <Mutation<LoginMutation, LoginMutationVariables>mutation={loginMutation}>
             {mutate => (
+            <div>
+            <img src="https://i.imgur.com/zgdzTJU.png"></img>
             <div style={{ display: "flex",
                           flexDirection: "column",
                           alignItems: "center",
                           justifyContent: "center"
             }}>
-                <div>
-                    <input 
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={this.handleChange}
-                    />
-                </div>
+               
+                <div id="main-box">
+                    <h2>PANEL PRACOWNIKA</h2>
+                    <div>
+                        <input 
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={this.handleChange}
+                        />
+                    </div>
 
-                <div>
-                    <input 
-                    type="password"
-                    name="password"
-                    placeholder="Hasło"
-                    value={password}
-                    onChange={this.handleChange}
-                    />
-                </div>
+                    <div>
+                        <input 
+                        type="password"
+                        name="password"
+                        placeholder="Hasło"
+                        value={password}
+                        onChange={this.handleChange}
+                        />
+                    </div>
 
-                <button onClick={async () => {
-                    const response = await mutate({
-                        variables: this.state
-                    });
-                    console.log(response);
-                    this.props.history.push('/me');
-                }}>Zaloguj się</button>
+                    <p>Mam problem z logowaniem</p>
+                    <div id="checkRememberMe">
+                        <input type="checkbox" value="lsRememberMe" id="rememberMe"/> 
+                        <label for="rememberMe">Zapamiętaj mnie</label>
+                    </div>
+                    
+                    <button onClick={async () => {
+                        const response = await mutate({
+                            variables: this.state
+                        });
+                        console.log(response);
+                        this.props.history.push('/me');
+                    }}>LOGIN</button>
+                </div>
+            </div>
             </div>
             )}
         </Mutation>

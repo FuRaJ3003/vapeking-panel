@@ -69,7 +69,7 @@ export class LoginView extends React.PureComponent<RouteComponentProps<{}>> {
                     <p>Mam problem z logowaniem</p>
                     <div id="checkRememberMe">
                         <input type="checkbox" value="lsRememberMe" id="rememberMe"/> 
-                        <label for="rememberMe">Zapamiętaj mnie</label>
+                        <label>Zapamiętaj mnie</label>
                     </div>
                     
                     <button onClick={async () => {

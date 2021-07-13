@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router-dom';
 
 import { LoginMutationVariables, LoginMutation } from '../../schemaTypes';
 
-import '../styles/style.css';
+import '../styles/login.css';
 
 const loginMutation = gql`
     mutation LoginMutation($email: String!, $password: String!) {

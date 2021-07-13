@@ -96,6 +96,8 @@ export class RegisterView extends React.PureComponent<RouteComponentProps<{}>> {
                     />
                 </div>
 
+
+
                 <button onClick={async () => {
                     const response = await mutate({
                         variables: this.state

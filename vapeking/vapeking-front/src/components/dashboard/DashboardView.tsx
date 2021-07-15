@@ -6,13 +6,16 @@ import { RouteComponentProps } from 'react-router-dom';
 // ICONS
 import { BsFillCircleFill } from "react-icons/bs";
 import { FcShop, FcAlarmClock, FcCalendar, FcBusinessman } from "react-icons/fc";
+import Clock from "./DateTimeComponent";
 
 import '../styles/dashboard.css';
+
 
 
 export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> {
 
     render() {
+
         return ( 
         <div>
             <div id="sidenav">
@@ -24,8 +27,8 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
 
                 <div id="nav_info">
                     <p><FcShop/> JustVape WŁB</p>
-                    <p><FcAlarmClock/> 09:34</p>
-                    <p><FcCalendar/> 13/07/21</p> 
+                    <p><FcAlarmClock/> <Clock /></p>
+                    <p><FcCalendar/> {new Date().toLocaleDateString() + ''}</p> 
                 </div>
 
                 <div id="nav_store">

@@ -12,7 +12,7 @@ body {
 
 
 /* LOGIN BUTTON */
-button {
+#main-box button {
     display: block;
     color: white; 
     margin-left: 33%;

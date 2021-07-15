@@ -11,7 +11,7 @@ from django.contrib.auth.models import (
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, email, password=None, is_active=True, is_staff=False, is_manager=False, is_admin=False):
+    def create_user(self, email, name, surename, password=None, is_active=True, is_staff=False, is_manager=False, is_admin=False):
         if not email:
             raise ValueError('Użytkownik musi posiadać adres e-mail.')
         if not password:
@@ -19,7 +19,9 @@ class UserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
         )
-
+        
+        user.name      = name
+        user.surename  = surename
         user.set_password(password)
         user.isactive  = is_active
         user.isstaff   = is_staff
@@ -30,18 +32,22 @@ class UserManager(BaseUserManager):
         return user
     
 
-    def create_staffuser(self, email, password=None):
+    def create_staffuser(self, email, name, surename, password, is_active=True, is_staff=True, is_manager=False, is_admin=False):
         user = self.create_user(
-            email,
+            email=email,
+            name=name,
+            surename=surename,
             password=password,
             is_staff=True,
         )
         user.save(using=self._db)
         return user
 
-    def create_manageruser(self, email, password):
+    def create_manageruser(self, email, name, surename, password, is_active=True, is_staff=True, is_manager=True, is_admin=False):
         user = self.create_user(
-            email,
+            email=email,
+            name=name,
+            surename=surename,
             password=password,
             is_staff=True,
             is_manager=True,
@@ -50,9 +56,11 @@ class UserManager(BaseUserManager):
         return user
 
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, email, name, surename, password, is_active=True, is_staff=True, is_manager=True, is_admin=True):
         user = self.create_user(
-            email,
+            email=email,
+            name=name,
+            surename=surename,
             password=password,
             is_staff=True,
             is_manager=True,
@@ -70,10 +78,10 @@ class User(PermissionsMixin, AbstractBaseUser):
     )
     password = models.CharField(max_length=100, null=False, blank=False)
 
-    name     = models.CharField(max_length=30, blank=True)
-    surename = models.CharField(max_length=30, blank=True)
+    name     = models.CharField(max_length=30, blank=False)
+    surename = models.CharField(max_length=30, blank=False)
     
-    store    = models.ForeignKey(Store, on_delete=models.CASCADE, blank=True, default=1)
+    store    = models.ForeignKey(Store, on_delete=models.CASCADE, default=1)
     isactive  = models.BooleanField(default=True)
     isstaff   = models.BooleanField(default=False)
     ismanager = models.BooleanField(default=False)

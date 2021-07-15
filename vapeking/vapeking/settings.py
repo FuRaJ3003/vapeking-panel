@@ -26,7 +26,21 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:8000",
+    "http://localhost:3000/register",
+    "http://localhost:8000",
+    "127.0.0.1",
+    "localhost",
+    "http://localhost:8000",
+    "http://localhost:4000",
+    "http://localhost:3000",
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:4000",
+    "http://127.0.0.1:3000"
+]
 
 
 # Application definition
@@ -52,6 +66,7 @@ INSTALLED_APPS = [
     # thid-party
     'graphene_django',
     'multiselectfield',
+    'corsheaders',
 ]
 
 AUTH_USER_MODEL = 'user.User' # changes the build-in user model to ours
@@ -64,6 +79,7 @@ GRAPHENE = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -73,6 +89,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = [
+        "http://localhost:8000",
+        "http://localhost:4000",
+        "http://localhost:3000",
+        "http://127.0.0.1:8000",
+        "http://127.0.0.1:4000",
+        "http://127.0.0.1:3000",
+    ]
+
 
 AUTHENTICATION_BACKENDS = [
     'graphql_jwt.backends.JSONWebTokenBackend',

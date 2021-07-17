@@ -1,5 +1,4 @@
 import graphene
-
 from .types import UserType
 from .mutations import UserCreate, StaffCreate
 from vapeking.user.models import User
@@ -16,11 +15,13 @@ class UserQueries(graphene.ObjectType):
         UserType, email=graphene.Argument(graphene.String, description="Email of User.")
     )
 
-    @active_member_required
+    me = graphene.Field(UserType)
+
+    # @active_member_required
     def resolve_user(self, _info, id):
         return User.objects.filter(id=id).first()
 
-    @active_member_required
+    # @active_member_required
     def resolve_user_email(self, _info, email):
         return User.objects.filter(email=email).first()
 
@@ -28,6 +29,8 @@ class UserQueries(graphene.ObjectType):
     def resolve_users(self, _info):
         return User.objects.all()
 
+    def resolve_me(self, _info):
+        pass
 
 
 class UserMutations(graphene.ObjectType):

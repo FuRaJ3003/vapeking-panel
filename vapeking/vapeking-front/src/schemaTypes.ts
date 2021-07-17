@@ -21,3 +21,23 @@ export interface LoginMutationVariables {
     email: string;
     password: string;
 }
+
+// verify token
+export interface VerifyToken {
+    token: string;
+    payload: string;
+}
+
+export interface VerifyTokenVariables {
+    token: string;
+}
+
+// user query
+
+export interface UserQuery {
+    email: string;
+}
+
+export interface UserQueryVariables {
+    email: string,
+}

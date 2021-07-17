@@ -4,6 +4,7 @@ import { gql } from "apollo-boost";
 import { RouteComponentProps } from 'react-router-dom';
 
 import { LoginMutationVariables, LoginMutation } from '../../schemaTypes';
+import Cookies from 'universal-cookie';
 
 import '../styles/login.css';
 
@@ -16,6 +17,7 @@ const loginMutation = gql`
     }
     `
 
+const cookies = new Cookies();
 
 export class LoginView extends React.PureComponent<RouteComponentProps<{}>> {
 
@@ -77,6 +79,14 @@ export class LoginView extends React.PureComponent<RouteComponentProps<{}>> {
                             variables: this.state
                         });
                         console.log(response);
+                        console.log(response.data.tokenAuth.token);
+                        console.log(response.data.tokenAuth.payload.email);
+                        cookies.set('jws_token', response.data.tokenAuth.token, { path: '/'});
+
+                        var email = response.data.tokenAuth.payload.email;
+                        email = email.replace("%40", "@")
+
+                        cookies.set('user_email', email, { path: '/'});
                         this.props.history.push('/dashboard');
                     }}>LOGIN</button>
                 </div>

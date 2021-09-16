@@ -15,8 +15,8 @@ import '../styles/dashboard.css';
 
 
 const cookies = new Cookies();
-const token = cookies.get('jws_token')
-const email = cookies.get('user_email')
+const token = cookies.get('jws_token');
+const email = cookies.get('user_email');
 
 const verifyTokenMutation = gql`
     mutation VerifyToken($token: String!){
@@ -27,8 +27,8 @@ const verifyTokenMutation = gql`
     `
 
 const userQuery = gql`
-    query UserQuery($email: String!){
-      userEmail(email: $email){
+    query UserQuery{
+      userEmail(email: "furajchirashi3003@gmail.com"){
         id
         email
         name
@@ -45,19 +45,26 @@ const userQuery = gql`
         isSuperuser
       }
     }
-    `
+    `;
+
+
 export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> {
 
     state = {
-        token: token
+        token: token,
+        email: email
+        
     }
-
+    
     render() {
         return (
-            <Mutation<VerifyToken, VerifyTokenVariables>mutation={verifyTokenMutation}>
+            
+            <Mutation<VerifyToken, VerifyTokenVariables> mutation={verifyTokenMutation}>
                 {mutate => (
+                    
+            <Query<UserQuery, UserQueryVariables> query={userQuery}>
 
-            <Query<UserQuery, {email}> query={userQuery}>
+
                 {({ data, loading }) => {
                     if (loading) {
                         return null;
@@ -73,13 +80,16 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                         <div id="sidenav">
                             <div id="nav_top">
                                 <img src="https://i.imgur.com/zgdzTJU.png"></img>
-                                <p id="side_name"> {data.user.email} {token} </p>
-                                <p id="side_name"> {data.user.name} {data.user.surename}</p>
+                                <p id="side_name"> {email} </p> 
+                                {/* {data.userEmail.email} */}
+                                <p id="side_name"> </p>
+                                {/* {data.user.name} {data.user.surename} */}
                                 <p id="side_status"> <span id="status_i"><BsFillCircleFill/></span> Online </p>
                             </div>
             
                             <div id="nav_info">
-                                <p><FcShop/> {data.user.store.name} [{data.user.store.city}]</p>
+                                <p><FcShop/> </p>
+                                {/* {data.user.store.name} [{data.user.store.city}] */}
                                 <p><FcAlarmClock/> <Clock /></p>
                                 <p><FcCalendar/> {new Date().toLocaleDateString() + ''}</p> 
                             
@@ -89,7 +99,7 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                             });
                             console.log(response);
 
-                        }}>ZWERYFIKUJ TOKEN</button>
+                        }}></button>
 
                             </div>
             

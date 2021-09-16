@@ -7,6 +7,8 @@ import { LoginMutationVariables, LoginMutation } from '../../schemaTypes';
 import Cookies from 'universal-cookie';
 
 import '../styles/login.css';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
+import { VariablesAreInputTypesRule } from 'graphql';
 
 const loginMutation = gql`
     mutation LoginMutation($email: String!, $password: String!) {
@@ -75,20 +77,34 @@ export class LoginView extends React.PureComponent<RouteComponentProps<{}>> {
                     </div>
                     
                     <button onClick={async () => {
+
                         const response = await mutate({
                             variables: this.state
                         });
-                        console.log(response);
-                        console.log(response.data.tokenAuth.token);
-                        console.log(response.data.tokenAuth.payload.email);
-                        cookies.set('jws_token', response.data.tokenAuth.token, { path: '/'});
 
-                        var email = response.data.tokenAuth.payload.email;
-                        email = email.replace("%40", "@")
+                        function make_cookies(response){
+                            if (response) {
+                                if (response.data.tokenAuth.token) {
+                                    var token = response.data.tokenAuth.token
+                                    cookies.set('jws_token', token, { path: '/'});
+                                }
+    
+                                if (response.data.tokenAuth.payload.email) {
+                                    var email = response.data.tokenAuth.payload.email;
+                                    email = email.replace("%40", "@");
+                                    cookies.set('user_email', email, { path: '/'});
+                                }
+                            }
+                        }
 
-                        cookies.set('user_email', email, { path: '/'});
+                        if (response) {
+                            make_cookies(response);
+                        }
+
                         this.props.history.push('/dashboard');
-                    }}>LOGIN</button>
+                    }}>
+                    
+                    LOGIN</button>
                 </div>
             </div>
             </div>
@@ -97,3 +113,5 @@ export class LoginView extends React.PureComponent<RouteComponentProps<{}>> {
         );
     }
 }
+
+// @ts-ignore: Object is possibly 'undefined'.

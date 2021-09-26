@@ -18,6 +18,7 @@ const cookies = new Cookies();
 const token = cookies.get('jws_token');
 const email = cookies.get('user_email');
 
+
 const verifyTokenMutation = gql`
     mutation VerifyToken($token: String!){
         verifyToken(token: $token){
@@ -27,8 +28,8 @@ const verifyTokenMutation = gql`
     `
 
 const userQuery = gql`
-    query UserQuery{
-      userEmail(email: "furajchirashi3003@gmail.com"){
+    query UserQuery($email: String!){
+      userEmail(email: $email){
         id
         email
         name
@@ -48,24 +49,23 @@ const userQuery = gql`
     `;
 
 
+
 export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> {
 
     state = {
-        token: token,
-        email: email
-        
+        token: token
     }
-    
+     
     render() {
         return (
             
             <Mutation<VerifyToken, VerifyTokenVariables> mutation={verifyTokenMutation}>
                 {mutate => (
                     
-            <Query<UserQuery, UserQueryVariables> query={userQuery}>
-
-
-                {({ data, loading }) => {
+            <Query<UserQuery, UserQueryVariables> query={userQuery} variables={{email}}>
+                {
+                
+                ({ data, loading }) => {
                     if (loading) {
                         return null;
                     }
@@ -75,37 +75,32 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                     }
 
                     return (
+            
                     <div>
-
                         <div id="sidenav">
                             <div id="nav_top">
                                 <img src="https://i.imgur.com/zgdzTJU.png"></img>
-                                <p id="side_name"> {email} </p> 
-                                {/* {data.userEmail.email} */}
-                                <p id="side_name"> </p>
-                                {/* {data.user.name} {data.user.surename} */}
+                                <p id="side_name"> {data.userEmail.name} {data.userEmail.surename} </p> 
                                 <p id="side_status"> <span id="status_i"><BsFillCircleFill/></span> Online </p>
                             </div>
             
                             <div id="nav_info">
                                 <p><FcShop/> </p>
-                                {/* {data.user.store.name} [{data.user.store.city}] */}
                                 <p><FcAlarmClock/> <Clock /></p>
                                 <p><FcCalendar/> {new Date().toLocaleDateString() + ''}</p> 
                             
                             <button onClick={ async() => {
-                            const response = await mutate({
-                                variables: this.state
-                            });
-                            console.log(response);
-
-                        }}></button>
+                                const response = await mutate({
+                                    variables: this.state
+                                });
+                                console.log(response);
+                                }}>
+                            </button>
 
                             </div>
             
                             <div id="nav_store">
                                 <h3><FcBusinessman/> Twój Sklep</h3>
-                                {/* {data.verifyToken.payload} */}
                                 <a href="#about">Osoba 1</a>
                                 <p><span id="status_i_on"><BsFillCircleFill/></span> Online <span id="rank_admin">[ADMINISTRATOR]</span></p>
                                 <a href="#services">Osoba 2</a>
@@ -140,7 +135,8 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                     </div>
                     );
                 }}
-                </Query>
+            
+            </Query>
                 )}
             </Mutation>
         );

@@ -6,7 +6,7 @@ import { Markup } from 'interweave';
 
 // React Icons
 import { BsFillCircleFill } from "react-icons/bs";
-import { FcShop, FcAlarmClock, FcCalendar, FcBusinessman } from "react-icons/fc";
+import { FcShop, FcAlarmClock, FcCalendar, FcBusinessman, FcDepartment } from "react-icons/fc";
 
 import { VerifyToken, VerifyTokenVariables } from '../../schemaTypes';
 import { UserQuery, UserQueryVariables } from '../../schemaTypes';
@@ -67,65 +67,31 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                 {
                 
                 ({ data, loading }) => {
-
-                    if (loading) {
-                        return null;
-                    }
-
-                    if (!data) {
-                        return <div> data is undefined </div>;
-                    }
-
+                    if (loading) return null;
+                    if (!data) return <div> data is undefined </div>;
 
                     // Premission setting
-                    if (data) {
-                        var rank = "[?]"
-                    }
-                    // @ts-ignore
-                    if (data.userEmail.isSuperuser) {
-                        rank = "[S-ADMINISTRATOR]";
-                    }
-                    // @ts-ignore
-                    else if (data.userEmail.isadmin) {
-                        rank = "<span id='rank_admin'>[ADMINISTRATOR]</span>";
-                    }
-                    // @ts-ignore
-                    else if (data.userEmail.ismanager) {
-                        rank = "[KIEROWNIK]";
-                    }
-                    // @ts-ignore
-                    else if (data.userEmail.isstaff) {
-                        rank = "[PRACOWNIK]";
-                    }
-                    // @ts-ignore
-                    else if (!data.userEmail.isactive) {
-                        return <div> User in unactive </div>
-                    }
+                    if (data) var rank = "[?]"
+                    if (data.userEmail.isSuperuser) rank = "<span id='rank_superuser'>[S-ADMINISTRATOR]</span>";
+                    else if (data.userEmail.isadmin) rank = "<span id='rank_admin'>[ADMINISTRATOR]</span>";
+                    else if (data.userEmail.ismanager) rank = "<span id='rank_manager'>[KIEROWNIK]</span>";
+                    else if (data.userEmail.isstaff) rank = "<span id='rank_staff'>[PRACOWNIK]</span>";
+                    else if (!data.userEmail.isactive) return <div> User in unactive </div>;
                 
-
-                    return (
-                    
+                    return (        
                     <div>
                         <div id="sidenav">
                             <div id="nav_top">
                                 <img src="https://i.imgur.com/zgdzTJU.png"></img>
                                 <p id="side_name"> {data.userEmail.name} {data.userEmail.surename} </p> 
-                                <p id="side_status"> <span id="status_i"><BsFillCircleFill/></span> Online {rank}</p>
+                                <p id="side_status"> <span id="status_i"><BsFillCircleFill/></span> Online<Markup content={rank}/></p>
                             </div>
             
                             <div id="nav_info">
-                                {/* <p><FcShop/> {data.userEmail.store.name} [ID: {data.userEmail.store.id}] </p> */}
+                                <p><FcDepartment/> {data.userEmail.store.city}</p>
+                                <p><FcShop/> {data.userEmail.store.name} [ID: {data.userEmail.store.id}] </p>
                                 <p><FcAlarmClock/> <Clock /></p>
                                 <p><FcCalendar/> {new Date().toLocaleDateString() + ''}</p> 
-                            
-                            {/* <button onClick={ async() => {
-                                const response = await mutate({
-                                    variables: this.state
-                                });
-                                console.log(response);
-                                }}>
-                            </button> */}
-
                             </div>
             
                             <div id="nav_store">
@@ -172,3 +138,11 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
         }
     }
 
+
+                                {/* <button onClick={ async() => {
+                                const response = await mutate({
+                                    variables: this.state
+                                });
+                                console.log(response);
+                                }}>
+                            </button> */}

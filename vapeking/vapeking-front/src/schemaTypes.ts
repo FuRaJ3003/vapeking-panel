@@ -39,7 +39,11 @@ export interface UserQuery {
         email: string;
         name: string;
         surename: string;
-        store: Array<any>;
+        store: {
+            id: number;
+            name: string;
+            city: string;
+        }
         isstaff: boolean;
         isadmin: boolean;
         isactive: boolean;

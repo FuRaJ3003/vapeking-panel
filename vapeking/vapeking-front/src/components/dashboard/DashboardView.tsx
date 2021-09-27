@@ -7,9 +7,8 @@ import { Markup } from 'interweave';
 // React Icons
 import { BsFillCircleFill } from "react-icons/bs";
 import { FcShop, FcAlarmClock, FcCalendar, FcBusinessman, FcDepartment } from "react-icons/fc";
-
 import { VerifyToken, VerifyTokenVariables } from '../../schemaTypes';
-import { UserQuery, UserQueryVariables } from '../../schemaTypes';
+import { UserQuery, UserQueryVariables, UsersStoreQuery, UsersStoreQueryVariables} from '../../schemaTypes';
 import Clock from "./DateTimeComponent";
 import Cookies from 'universal-cookie';
 import '../styles/dashboard.css';
@@ -49,6 +48,28 @@ const userQuery = gql`
     }
     `;
 
+const usersStoreQuery = gql`
+    query UsersStoreQuery($user_store_id: ID!){
+      usersStore(storeId: $user_store_id){
+        id
+        email
+        name
+        surename
+        isstaff
+        isadmin
+        isactive
+        ismanager
+        isSuperuser
+        lastLogin
+        store{
+          id
+          city
+          name
+        }
+      }
+    }
+`;
+
 
 
 export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> {
@@ -69,20 +90,21 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                 ({ data, loading }) => {
                     if (loading) return null;
                     if (!data) return <div> data is undefined </div>;
-
-                    // Premission setting
+                    
                     if (data) var rank = "[?]"
                     if (data.userEmail.isSuperuser) rank = "<span id='rank_superuser'>[S-ADMINISTRATOR]</span>";
                     else if (data.userEmail.isadmin) rank = "<span id='rank_admin'>[ADMINISTRATOR]</span>";
                     else if (data.userEmail.ismanager) rank = "<span id='rank_manager'>[KIEROWNIK]</span>";
                     else if (data.userEmail.isstaff) rank = "<span id='rank_staff'>[PRACOWNIK]</span>";
                     else if (!data.userEmail.isactive) return <div> User in unactive </div>;
-                
+                    
+                    // const user_store_id: number= +data.userEmail.store.id;
+                    const user_store_id: number = data.userEmail.store.id;
                     return (        
                     <div>
                         <div id="sidenav">
                             <div id="nav_top">
-                                <img src="https://i.imgur.com/zgdzTJU.png"></img>
+                                <img src="https://i.imgur.com/zgdzTJU.png" alt="justVape LOGO"></img>
                                 <p id="side_name"> {data.userEmail.name} {data.userEmail.surename} </p> 
                                 <p id="side_status"> <span id="status_i"><BsFillCircleFill/></span> Online<Markup content={rank}/></p>
                             </div>
@@ -96,14 +118,35 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
             
                             <div id="nav_store">
                                 <h3><FcBusinessman/> Twój Sklep</h3>
-                                <a href="#about">Osoba 1</a>
-                                <p><span id="status_i_on"><BsFillCircleFill/></span> Online <span id="rank_admin">[ADMINISTRATOR]</span></p>
-                                <a href="#services">Osoba 2</a>
-                                <p><span id="status_i_on"><BsFillCircleFill/></span> Online <span id="rank_manager">[KIEROWNIK]</span></p>
-                                <a href="#clients">Osoba 3</a>
-                                <p><span id="status_i_of"><BsFillCircleFill/></span> Offline <span id="rank_staff">[PRACOWNIK]</span></p>
-                                <a href="#contact">Osoba 4</a>
-                                <p><span id="status_i_of"><BsFillCircleFill/></span> Offline <span id="rank_staff">[PRACOWNIK]</span></p>
+                                
+                                <Query<UsersStoreQuery, UsersStoreQueryVariables> query={usersStoreQuery} variables={{user_store_id}}>
+                                { ({ data, loading }) => {
+
+                                    if (loading) return null;
+                                    if (!data) return <div> ERROR: On loading Store Data </div>;
+
+                                    var users_render: string = ""
+
+                                    for (let i in data.usersStore) {
+                                        if(data.usersStore[i].name) users_render += "<a>" + data.usersStore[i].name +
+                                            " " + data.usersStore[i].surename + "</a>";
+                                        else users_render += "<a> Anonimowy Użytkownik </a>";
+
+                                        var other_rank = " [NIEZNANY]";
+                                        if (data.usersStore[i].isSuperuser) other_rank = "<span id='rank_superuser'>[S-ADMINISTRATOR]</span>";
+                                        else if (data.usersStore[i].isadmin) other_rank = "<span id='rank_admin'>[ADMINISTRATOR]</span>";
+                                        else if (data.usersStore[i].ismanager) other_rank = "<span id='rank_manager'>[KIEROWNIK]</span>";
+                                        else if (data.usersStore[i].isstaff) other_rank = "<span id='rank_staff'>[PRACOWNIK]</span>";
+                                        else if (data.usersStore[i].isactive) other_rank = "<span> [AKTYWNY]</span>";
+
+                                        users_render += "<p> <span id='status_i_of'>" + "‣" + "</span> Offline" + other_rank + "</p><br>";
+                                    }
+
+                                    return (
+                                        <div><Markup content={users_render}></Markup></div>
+                                    )
+
+                                }}</Query>
                             </div>
             
                         </div>

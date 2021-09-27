@@ -60,42 +60,49 @@ body {
     color:white;
 }
 
-#nav_store #status_i_on {
-    color: #22BB31;
-    margin-left: 15px;
-}
-
-#nav_store #status_i_of {
-    color: #FF0000;
-    margin-left: 15px;
-}
-
-#nav_store #rank_user {
-    margin-left: 5px;
-    color:#818181;
-}
-
-#nav_store #rank_staff {
-    margin-left: 5px;
-    color: #1CABD9;
-}
-
-#nav_store #rank_manager {
-    margin-left: 5px;
-    color: #0BB808;
-}
-
-#nav_store #rank_admin{
-    margin-left: 5px;
-    color: #FF4040;
-}
-
 #nav_store h3{
     color:white;
     font-size: 25px;
     text-align: center;
     font-weight: inherit;
 }
+
+#status_i_on {
+    color: #22BB31;
+    margin-left: 15px;
+}
+
+#status_i_of {
+    color: #FF0000;
+    margin-left: 15px;
+}
+
+#rank_user {
+    margin-left: 5px;
+    color:#818181;
+}
+
+/* RANKS */
+#rank_staff {
+    margin-left: 5px;
+    color: #1CABD9;
+}
+
+#rank_manager {
+    margin-left: 5px;
+    color: #0BB808;
+}
+
+#rank_admin{
+    margin-left: 5px;
+    color: #FF4040;
+}
+
+#rank_superuser{
+    margin-left: 5px;
+    color: #EBB434
+}
+
 
 /* NAV LOGOUT */
 

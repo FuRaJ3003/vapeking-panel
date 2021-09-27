@@ -15,7 +15,7 @@ class UserQueries(graphene.ObjectType):
         UserType, email=graphene.Argument(graphene.String, description="Email of User.")
     )
 
-    me = graphene.Field(UserType)
+    users_store = graphene.List(UserType, store_id=graphene.Argument(graphene.ID, description="ID of Store."))
 
     # @active_member_required
     def resolve_user(self, _info, id):
@@ -29,9 +29,8 @@ class UserQueries(graphene.ObjectType):
     def resolve_users(self, _info):
         return User.objects.all()
 
-    def resolve_me(self, _info):
-        pass
-
+    def resolve_users_store(self, _info, store_id):
+        return User.objects.filter(store_id=store_id)
 
 class UserMutations(graphene.ObjectType):
     user_create = UserCreate.Field()

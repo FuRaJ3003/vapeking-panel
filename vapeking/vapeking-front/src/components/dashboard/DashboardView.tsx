@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Query, Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { RouteComponentProps } from 'react-router-dom';
+import { Markup } from 'interweave';
 
 // React Icons
 import { BsFillCircleFill } from "react-icons/bs";
@@ -15,8 +16,8 @@ import '../styles/dashboard.css';
 
 
 const cookies = new Cookies();
-const token = cookies.get('jws_token');
-const email = cookies.get('user_email');
+const token: string = cookies.get('jws_token');
+const email: string = cookies.get('user_email');
 
 
 const verifyTokenMutation = gql`
@@ -66,6 +67,7 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                 {
                 
                 ({ data, loading }) => {
+
                     if (loading) {
                         return null;
                     }
@@ -74,28 +76,55 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                         return <div> data is undefined </div>;
                     }
 
+
+                    // Premission setting
+                    if (data) {
+                        var rank = "[?]"
+                    }
+                    // @ts-ignore
+                    if (data.userEmail.isSuperuser) {
+                        rank = "[S-ADMINISTRATOR]";
+                    }
+                    // @ts-ignore
+                    else if (data.userEmail.isadmin) {
+                        rank = "<span id='rank_admin'>[ADMINISTRATOR]</span>";
+                    }
+                    // @ts-ignore
+                    else if (data.userEmail.ismanager) {
+                        rank = "[KIEROWNIK]";
+                    }
+                    // @ts-ignore
+                    else if (data.userEmail.isstaff) {
+                        rank = "[PRACOWNIK]";
+                    }
+                    // @ts-ignore
+                    else if (!data.userEmail.isactive) {
+                        return <div> User in unactive </div>
+                    }
+                
+
                     return (
-            
+                    
                     <div>
                         <div id="sidenav">
                             <div id="nav_top">
                                 <img src="https://i.imgur.com/zgdzTJU.png"></img>
                                 <p id="side_name"> {data.userEmail.name} {data.userEmail.surename} </p> 
-                                <p id="side_status"> <span id="status_i"><BsFillCircleFill/></span> Online </p>
+                                <p id="side_status"> <span id="status_i"><BsFillCircleFill/></span> Online {rank}</p>
                             </div>
             
                             <div id="nav_info">
-                                <p><FcShop/> </p>
+                                {/* <p><FcShop/> {data.userEmail.store.name} [ID: {data.userEmail.store.id}] </p> */}
                                 <p><FcAlarmClock/> <Clock /></p>
                                 <p><FcCalendar/> {new Date().toLocaleDateString() + ''}</p> 
                             
-                            <button onClick={ async() => {
+                            {/* <button onClick={ async() => {
                                 const response = await mutate({
                                     variables: this.state
                                 });
                                 console.log(response);
                                 }}>
-                            </button>
+                            </button> */}
 
                             </div>
             

@@ -33,10 +33,21 @@ export interface VerifyTokenVariables {
 }
 
 // user query
-
 export interface UserQuery {
-    email: string;
+    userEmail: {
+        id: number;
+        email: string;
+        name: string;
+        surename: string;
+        store: Array<any>;
+        isstaff: boolean;
+        isadmin: boolean;
+        isactive: boolean;
+        ismanager: boolean;
+        isSuperuser: boolean;
+    }
 }
+
 
 export interface UserQueryVariables {
     email: string,

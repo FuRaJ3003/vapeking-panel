@@ -54,5 +54,29 @@ export interface UserQuery {
 
 
 export interface UserQueryVariables {
-    email: string,
+    email: string;
+}
+
+// users store query
+export interface UsersStoreQuery {
+    usersStore: {
+        id: number;
+        email: string;
+        name: string;
+        store: {
+            id: number;
+            name: string;
+            city: string;
+        }
+        surename: string;
+        isstaff: boolean;
+        isadmin: boolean;
+        isactive: boolean;
+        ismanager: boolean;
+        isSuperuser: boolean;
+    }
+}
+
+export interface UsersStoreQueryVariables {
+    user_store_id: number;
 }

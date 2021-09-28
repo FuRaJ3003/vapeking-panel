@@ -3,14 +3,21 @@ import { Query, Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { RouteComponentProps } from 'react-router-dom';
 import { Markup } from 'interweave';
+import  Cookies  from 'universal-cookie';
 
 // React Icons
+import { GiModernCity, GiShop } from "react-icons/gi"
+import { BiTimeFive } from "react-icons/bi";
+import { IoCalendarSharp } from "react-icons/io5";
+
+import { ImUserTie } from "react-icons/im";
 import { BsFillCircleFill } from "react-icons/bs";
 import { FcShop, FcAlarmClock, FcCalendar, FcBusinessman, FcDepartment } from "react-icons/fc";
+
+// Locals
 import { VerifyToken, VerifyTokenVariables } from '../../schemaTypes';
 import { UserQuery, UserQueryVariables, UsersStoreQuery, UsersStoreQueryVariables} from '../../schemaTypes';
 import Clock from "./DateTimeComponent";
-import Cookies from 'universal-cookie';
 import '../styles/dashboard.css';
 
 
@@ -110,14 +117,14 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                             </div>
             
                             <div id="nav_info">
-                                <p><FcDepartment/> {data.userEmail.store.city}</p>
-                                <p><FcShop/> {data.userEmail.store.name} [ID: {data.userEmail.store.id}] </p>
-                                <p><FcAlarmClock/> <Clock /></p>
-                                <p><FcCalendar/> {new Date().toLocaleDateString() + ''}</p> 
+                                <p><GiModernCity/> {data.userEmail.store.city}</p>
+                                <p><GiShop/> {data.userEmail.store.name} [ID: {data.userEmail.store.id}] </p>
+                                <p><BiTimeFive/> <Clock /></p>
+                                <p><IoCalendarSharp/> {new Date().toLocaleDateString() + ''}</p> 
                             </div>
             
                             <div id="nav_store">
-                                <h3><FcBusinessman/> Twój Sklep</h3>
+                                <h3><ImUserTie/> Twój Sklep</h3>
                                 
                                 <Query<UsersStoreQuery, UsersStoreQueryVariables> query={usersStoreQuery} variables={{user_store_id}}>
                                 { ({ data, loading }) => {

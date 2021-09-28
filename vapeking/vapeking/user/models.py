@@ -11,7 +11,7 @@ from django.contrib.auth.models import (
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, email, name, surename, password=None, is_active=True, is_staff=False, is_manager=False, is_admin=False):
+    def create_user(self, email, name, surename, password=None, is_active=True, is_staff=False, is_manager=False, is_admin=False, is_online=False):
         if not email:
             raise ValueError('Użytkownik musi posiadać adres e-mail.')
         if not password:
@@ -27,23 +27,25 @@ class UserManager(BaseUserManager):
         user.isstaff   = is_staff
         user.ismanager = is_manager
         user.isadmin   = is_admin
-
+        user.isonline  = is_online
+        
         user.save(using=self._db)
         return user
     
 
-    def create_staffuser(self, email, name, surename, password, is_active=True, is_staff=True, is_manager=False, is_admin=False):
+    def create_staffuser(self, email, name, surename, password, is_active=True, is_staff=True, is_manager=False, is_admin=False, is_online=False):
         user = self.create_user(
             email=email,
             name=name,
             surename=surename,
             password=password,
             is_staff=True,
+            is_online=False
         )
         user.save(using=self._db)
         return user
 
-    def create_manageruser(self, email, name, surename, password, is_active=True, is_staff=True, is_manager=True, is_admin=False):
+    def create_manageruser(self, email, name, surename, password, is_active=True, is_staff=True, is_manager=True, is_admin=False, is_online=False):
         user = self.create_user(
             email=email,
             name=name,
@@ -51,12 +53,13 @@ class UserManager(BaseUserManager):
             password=password,
             is_staff=True,
             is_manager=True,
+            is_online=False
         )
         user.save(using=self._db)
         return user
 
 
-    def create_superuser(self, email, name, surename, password, is_active=True, is_staff=True, is_manager=True, is_admin=True):
+    def create_superuser(self, email, name, surename, password, is_active=True, is_staff=True, is_manager=True, is_admin=True, is_online=False):
         user = self.create_user(
             email=email,
             name=name,
@@ -65,6 +68,7 @@ class UserManager(BaseUserManager):
             is_staff=True,
             is_manager=True,
             is_admin=True,
+            is_online=False,
         )
         user.save(using=self._db)
         return user
@@ -86,6 +90,7 @@ class User(PermissionsMixin, AbstractBaseUser):
     isstaff   = models.BooleanField(default=False)
     ismanager = models.BooleanField(default=False)
     isadmin   = models.BooleanField(default=False)
+    isonline  = models.BooleanField(default=False)
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [] 

@@ -100,6 +100,15 @@ class User(PermissionsMixin, AbstractBaseUser):
 
     def get_short_name(self):
         short_name = f"{self.name} {self.surename}"
+        return short_name
+
+    def set_online(self):
+        self.isonline = True
+        return self.isonline
+    
+    def set_offline(self):
+        self.isonline = False
+        return self.isonline
 
     def __str__(self):
         return self.email

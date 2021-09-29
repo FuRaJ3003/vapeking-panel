@@ -93,7 +93,7 @@ class User(PermissionsMixin, AbstractBaseUser):
     isonline  = models.BooleanField(default=False)
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [] 
+    REQUIRED_FIELDS = ['name', 'surename'] 
 
     def get_full_name(self):
         return self.email
@@ -121,6 +121,10 @@ class User(PermissionsMixin, AbstractBaseUser):
     @property
     def is_admin(self):
         return self.isadmin
+    
+    @property
+    def is_online(self):
+        return self.isonline
 
     objects = UserManager()
 

@@ -47,8 +47,6 @@ class UserCreateInput(graphene.InputObjectType):
         return name
         
 
-
-
 class UserCreate(graphene.Mutation):
     
     user = graphene.Field(UserType)
@@ -84,3 +82,29 @@ class StaffCreate(graphene.Mutation):
 
         staff = User.objects.create_staffuser(**cleaned_input, is_staff=True)
         return StaffCreate(user=staff)
+
+
+class UserMakeOnline(graphene.Mutation):
+    user = graphene.Field(UserType)
+
+    class Arguments:
+        input = graphene.ID
+
+    @classmethod
+    def mutate(cls, root, _info, input):
+        user = User.objects.filter(id=input)
+        user.is_online = True
+        return user.save()
+
+
+class UserMakeOffline(graphene.Mutation):
+    user = graphene.Field(UserType)
+
+    class Arguments:
+        input = graphene.ID
+
+    @classmethod
+    def mutate(cls, root, _info, input):
+        user = User.objects.filter(id=input)
+        user.is_online = False
+        return user.save()

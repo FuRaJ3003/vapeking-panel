@@ -1,6 +1,6 @@
 import graphene
 from .types import UserType
-from .mutations import UserCreate, StaffCreate
+from .mutations import UserCreate, StaffCreate, UserMakeOffline, UserMakeOnline
 from vapeking.user.models import User
 from ..core.utils import staff_member_required, active_member_required
 
@@ -20,6 +20,7 @@ class UserQueries(graphene.ObjectType):
     users_online = graphene.List(UserType)
     users_offline = graphene.List(UserType)
 
+
     # @active_member_required
     def resolve_user(self, _info, id):
         return User.objects.filter(id=id).first()
@@ -36,11 +37,13 @@ class UserQueries(graphene.ObjectType):
         return User.objects.filter(store_id=store_id)
 
     def resolve_users_online(self, _info):
-        return User.objects.filter(is_online=True)
+        return User.objects.filter(isonline=True)
     
     def resolve_users_offline(self, _info):
-        return User.objects.filter(is_online=False)
+        return User.objects.filter(isonline=False)
 
 class UserMutations(graphene.ObjectType):
     user_create = UserCreate.Field()
     staff_create = StaffCreate.Field()
+    user_make_online = UserMakeOnline.Field()
+    user_make_offline = UserMakeOffline.Field()

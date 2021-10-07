@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Query, Mutation } from "react-apollo";
+import { Query, Mutation, useMutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { RouteComponentProps } from 'react-router-dom';
 import { Markup } from 'interweave';
@@ -9,19 +9,23 @@ import  Cookies  from 'universal-cookie';
 import { GiModernCity, GiShop } from "react-icons/gi"
 import { BiTimeFive } from "react-icons/bi";
 import { IoCalendarSharp } from "react-icons/io5";
-
 import { ImUserTie } from "react-icons/im";
 import { BsFillCircleFill } from "react-icons/bs";
-import { FcShop, FcAlarmClock, FcCalendar, FcBusinessman, FcDepartment } from "react-icons/fc";
 
 // Locals
 import { VerifyToken, VerifyTokenVariables } from '../../schemaTypes';
-import { UserQuery, UserQueryVariables, UsersStoreQuery, UsersStoreQueryVariables} from '../../schemaTypes';
+import { 
+    UserQuery, UserQueryVariables,
+    UsersStoreQuery, UsersStoreQueryVariables,
+    } from '../../schemaTypes';
+
 import Clock from "./DateTimeComponent";
+import MakeOffline from "./LogoutComponent";
 import '../styles/dashboard.css';
 
 
 const cookies = new Cookies();
+
 const token: string = cookies.get('jws_token');
 const email: string = cookies.get('user_email');
 
@@ -67,6 +71,7 @@ const usersStoreQuery = gql`
         isactive
         ismanager
         isSuperuser
+        isonline
         lastLogin
         store{
           id
@@ -77,6 +82,18 @@ const usersStoreQuery = gql`
     }
 `;
 
+const checkCookie = function() {
+    var lastCookie = document.cookie;
+
+    return function() {
+        var currentCookie = document.cookie;
+        if (currentCookie != lastCookie) {
+            console.log(cookies.get('jws_token'))
+            lastCookie = currentCookie;
+        }
+    };
+}();
+window.setInterval(checkCookie, 100);
 
 
 export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> {
@@ -85,7 +102,9 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
         token: token
     }
      
+
     render() {
+
         return (
             
             <Mutation<VerifyToken, VerifyTokenVariables> mutation={verifyTokenMutation}>
@@ -95,7 +114,10 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                 {
                 
                 ({ data, loading }) => {
-                    if (loading) return null;
+                    if (loading){
+                        console.log("REFRESH")
+                        return null
+                    };
                     if (!data) return <div> data is undefined </div>;
                     
                     if (data) var rank = "[?]"
@@ -112,7 +134,7 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                         <div id="sidenav">
                             <div id="nav_top">
                                 <img src="https://i.imgur.com/zgdzTJU.png" alt="justVape LOGO"></img>
-                                <p id="side_name"> {data.userEmail.name} {data.userEmail.surename} </p> 
+                                <p id="side_name"> {data.userEmail.name} {data.userEmail.surename} [ID: {data.userEmail.id}] </p> 
                                 <p id="side_status"> <span id="status_i"><BsFillCircleFill/></span> Online<Markup content={rank}/></p>
                             </div>
             
@@ -145,8 +167,11 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                                         else if (data.usersStore[i].ismanager) other_rank = "<span id='rank_manager'>[KIEROWNIK]</span>";
                                         else if (data.usersStore[i].isstaff) other_rank = "<span id='rank_staff'>[PRACOWNIK]</span>";
                                         else if (data.usersStore[i].isactive) other_rank = "<span> [AKTYWNY]</span>";
+                                        
+                                        if (data.usersStore[i].isonline) users_render += "<p> <span id='status_i_on'>" + "‣" + "</span> Online" + other_rank + "</p><br>";
+                                        else if (!data.usersStore[i].isonline) users_render += "<p> <span id='status_i_of'>" + "‣" + "</span> Offline" + other_rank + "</p><br>";
+                                        else users_render += "<p> <span id='status_i_off'>" + "‣" + "</span> ? ERROR" + other_rank + "</p><br>";
 
-                                        users_render += "<p> <span id='status_i_of'>" + "‣" + "</span> Offline" + other_rank + "</p><br>";
                                     }
 
                                     return (
@@ -157,12 +182,9 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                             </div>
             
                         </div>
-                        <button onClick={async () => {this.props.history.push('/login');}}>
-                            <div id="nav_logout">
-                                <p>WYLOGUJ SIĘ</p>
-                            </div>
-                        </button>
-            
+                        
+                        <MakeOffline id={data.userEmail.id}/>    
+                        
                         <div id="main">
                           <h2>JustVape</h2>
                           <p>Jak tu jest ku#%a pięknie!</p>

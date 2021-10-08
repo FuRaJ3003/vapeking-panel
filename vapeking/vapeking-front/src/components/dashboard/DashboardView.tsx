@@ -4,6 +4,7 @@ import { gql } from "apollo-boost";
 import { RouteComponentProps } from 'react-router-dom';
 import { Markup } from 'interweave';
 import  Cookies  from 'universal-cookie';
+import { useHistory } from 'react-router-dom';
 
 // React Icons
 import { GiModernCity, GiShop } from "react-icons/gi"
@@ -26,8 +27,8 @@ import '../styles/dashboard.css';
 
 const cookies = new Cookies();
 
-const token: string = cookies.get('jws_token');
-const email: string = cookies.get('user_email');
+var token: string = cookies.get('jws_token');
+var email: string = cookies.get('user_email');
 
 
 const verifyTokenMutation = gql`
@@ -95,30 +96,41 @@ const checkCookie = function() {
 }();
 window.setInterval(checkCookie, 100);
 
+window.onload = function() {
+    if(!window.location.hash) {
+        const timeout = new Promise(r => setTimeout(r, 2000));
+        // @ts-ignore
+        window.location = window.location + '#loaded';
+        window.location.reload();
+    }
+}
 
+
+// var email = "furajchirashi3003@gmail.com";
 export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> {
 
     state = {
         token: token
     }
      
-
+    
     render() {
-
+        
         return (
-            
-            <Mutation<VerifyToken, VerifyTokenVariables> mutation={verifyTokenMutation}>
-                {mutate => (
-                    
-            <Query<UserQuery, UserQueryVariables> query={userQuery} variables={{email}}>
+
+            <Query<UserQuery, UserQueryVariables> query={userQuery} variables={{email}} fetchPolicy="network-only">
                 {
                 
-                ({ data, loading }) => {
+                ({ data, loading, error }) => {
                     if (loading){
                         console.log("REFRESH")
                         return null
                     };
-                    if (!data) return <div> data is undefined </div>;
+                    if (error){
+                        return <div> Nie jesteś zalogowany {console.log(error)}</div>;
+                        // let history = useHistory()
+                        // history.push('/login')
+                    }
                     
                     if (data) var rank = "[?]"
                     if (data.userEmail.isSuperuser) rank = "<span id='rank_superuser'>[S-ADMINISTRATOR]</span>";
@@ -129,6 +141,8 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                     
                     // const user_store_id: number= +data.userEmail.store.id;
                     const user_store_id: number = data.userEmail.store.id;
+
+
                     return (        
                     <div>
                         <div id="sidenav">
@@ -148,7 +162,7 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                             <div id="nav_store">
                                 <h3><ImUserTie/> Twój Sklep</h3>
                                 
-                                <Query<UsersStoreQuery, UsersStoreQueryVariables> query={usersStoreQuery} variables={{user_store_id}}>
+                                <Query<UsersStoreQuery, UsersStoreQueryVariables> query={usersStoreQuery} variables={{user_store_id}} fetchPolicy="network-only">
                                 { ({ data, loading }) => {
 
                                     if (loading) return null;
@@ -204,8 +218,8 @@ export class DashboardView extends React.PureComponent<RouteComponentProps<{}>> 
                 }}
             
             </Query>
-                )}
-            </Mutation>
+                
+            
         );
         }
     }
